@@ -49,7 +49,7 @@
     };
 
     var Bullet = function(center, velocity) {
-        this.size = { x: 3, y: 3 };
+        this.size = { x: 5, y: 5 };
         this.center = center;
         this.velocity = velocity;
     };
@@ -86,7 +86,7 @@
     // tells game where playeris at moment
     var Player = function(game, gameSize) {
         this.game = game;
-        this.size = { x: 15, y: 15 };
+        this.size = { x: 25, y: 25 };
         this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.x };
         this.keyboarder = new keyboarder();
     };
@@ -116,6 +116,7 @@
             body.size.x,
             body.size.y
         );
+        screen.fillStyle = "#ff99cc";
     };
 
     var keyboarder = function() {

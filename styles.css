@@ -1,3 +1,10 @@
 .space {
-    border: solid red;
+    border: solid #ff99cc;
+    border-width: 5px;
+    background-color: #99e6ff;
+    background-image: url(background-for-game.png);
+}
+
+* {
+    color: azure;
 }
