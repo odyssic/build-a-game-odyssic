@@ -13,7 +13,7 @@
 
         // all bodies in game
 
-        this.bodies = [new Player(this, gameSize)];
+        this.bodies = createInvaders(this).concat(new Player(this, gameSize));
 
         const self = this;
 
@@ -34,9 +34,21 @@
 
     Game.prototype = {
         update: function() {
+            var bodies = this.bodies;
+            var notCollidingWithAnything = function(body1) {
+                return (
+                    bodies.filter(function(body2) {
+                        return colliding(body1, body2);
+                    }).length === 0
+                );
+            };
+
+            this.bodies = this.bodies.filter(notCollidingWithAnything);
+
             for (var i = 0; i < this.bodies.length; i++) this.bodies[i].update();
             // console.log('hi')
         },
+
         draw: function(screen, gameSize) {
             screen.clearRect(0, 0, gameSize.x, gameSize.y);
             for (var i = 0; i < this.bodies.length; i++) {
@@ -79,6 +91,16 @@
             this.center.x += this.speedX;
             this.patrolX += this.speedX;
         }
+    };
+
+    var createInvaders = function(game) {
+        var invaders = [];
+        for (var i = 0; i < 24; i++) {
+            var x = 30 + (i % 8) * 30;
+            var y = 30 + (i % 3) * 30;
+            invaders.push(new Invader(game, { x: x, y: y }));
+        }
+        return invaders;
     };
 
     // var createInvaders = function()
@@ -132,6 +154,16 @@
             return keyState[keyCode] === true;
         };
         this.KEYS = { LEFT: 37, RIGHT: 39, SPACE: 32 };
+    };
+
+    var colliding = function(body1, body2) {
+        return !(
+            body1 === body2 ||
+            body1.center.x + body1.size.y / 2 < body2.center.x - body2.size.x / 2 ||
+            body1.center.y + body1.size.y / 2 < body2.center.y - body2.size.y / 2 ||
+            body1.center.x - body1.size.y / 2 > body2.center.x + body2.size.x / 2 ||
+            body1.center.y - body1.size.y / 2 > body2.center.y + body2.size.y / 2
+        );
     };
 
     window.onload = function() {
