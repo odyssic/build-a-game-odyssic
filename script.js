@@ -10,7 +10,7 @@
         const backgroundSpace = $("#space");
         let screen = backgroundSpace.getContext("2d");
         const gameSize = { x: backgroundSpace.width, y: backgroundSpace.height };
-
+        console.log(gameSize);
         // all bodies in game
 
         this.bodies = createInvaders(this).concat(new Player(this, gameSize));
@@ -23,13 +23,6 @@
             requestAnimationFrame(tick);
         };
         tick();
-
-        // screen background details
-        // const my_gradient = screen.createLinearGradient(0, 0, 0, 170);
-        // my_gradient.addColorStop(0, "blue");
-        // my_gradient.addColorStop(1, "blue");
-        // screen.fillStyle = my_gradient;
-        // screen.fillRect(0, 0, 400, 400)
     };
 
     Game.prototype = {
@@ -49,6 +42,23 @@
             // console.log('hi')
         },
 
+        drawHero: function(screen, gameSize) {
+            screen.clearRect(0, 0, gameSize.x, gameSize.y);
+            for (var i = 0; i < this.bodies.length; i++) {
+                drawRect(screen, this.bodies[i]);
+
+                make_base();
+
+                function make_base() {
+                    base_image = new Image();
+                    base_image.src = "yellow-circle.png";
+                    base_image.onload = function() {
+                        context.drawImage(base_image, 0, 0);
+                    };
+                }
+            }
+        },
+
         draw: function(screen, gameSize) {
             screen.clearRect(0, 0, gameSize.x, gameSize.y);
             for (var i = 0; i < this.bodies.length; i++) {
@@ -57,6 +67,18 @@
         },
         addBody: function(body) {
             this.bodies.push(body);
+        },
+
+        invadersBelow: function(invader) {
+            return (
+                this.bodies.filter(function(body) {
+                    return (
+                        body instanceof Invader &&
+                        body.center.y > invader.center.y &&
+                        body.center.x - invader.center.x < invader.size.x
+                    );
+                }).length > 0
+            );
         }
     };
 
@@ -64,6 +86,7 @@
         this.size = { x: 5, y: 5 };
         this.center = center;
         this.velocity = velocity;
+        // this.image = url("yellow-circle.png");
     };
     //removed 'prototype'
 
@@ -76,10 +99,10 @@
 
     var Invader = function(game, center) {
         this.game = game;
-        this.size = { x: 15, y: 15 };
+        this.size = { x: 25, y: 25 };
         this.center = center;
         this.patrolX = 0;
-        this.speedX = 0.3;
+        this.speedX = 0.9;
     };
     //removed 'prototype'
 
@@ -90,14 +113,22 @@
             }
             this.center.x += this.speedX;
             this.patrolX += this.speedX;
+
+            if (Math.random() > 0.992 && !this.game.invadersBelow(this)) {
+                var bullet = new Bullet({ x: this.center.x, y: this.center.y + this.size.y / 2 + 4 },
+
+                    { x: Math.random() - 0.5, y: 2 }
+                );
+                this.game.addBody(bullet);
+            }
         }
     };
 
     var createInvaders = function(game) {
         var invaders = [];
         for (var i = 0; i < 24; i++) {
-            var x = 30 + (i % 8) * 30;
-            var y = 30 + (i % 3) * 30;
+            var x = 30 + (i % 8) * 42;
+            var y = 30 + (i % 3) * 42;
             invaders.push(new Invader(game, { x: x, y: y }));
         }
         return invaders;
@@ -117,9 +148,9 @@
     Player.prototype = {
         update: function() {
             if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-                this.center.x -= 2;
+                this.center.x -= 4;
             } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-                this.center.x += 2;
+                this.center.x += 4;
             }
             if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
                 var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x / 2 },
@@ -170,30 +201,3 @@
         new Game("screen");
     };
 })();
-
-// //create an empty array for bodies
-// this.bodies = [];
-
-// this.bodies = this.bodies.concat(createBees(this));
-
-// //.concat merges two arrays into a new array
-
-// this.bodies = this.bodies.concat(new Player(this, gameSize));
-
-// const self = this;
-// // main game tick
-
-// // function.Loops forever, running 60 times a SecurityPolicyViolationEvent.
-
-// self.update();
-
-// // Draw game bodies.
-
-// self.draw(screen, gameSize);
-// // queue up next call to tick with browswer.
-
-// requesetAnimationFrame(tick)
-
-// };
-
-// { "modelVersion": 2, "piskel": { "name": "New Piskel", "description": "", "fps": 12, "height": 5, "width": 5, "layers": ["{\"name\":\"Layer 1\",\"opacity\":1,\"frameCount\":1,\"chunks\":[{\"layout\":[[0]],\"base64PNG\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAATElEQVQYV2NkgAIHK6v/B44dYwRxwcSxqqr/cUuXMiyKjmawamtjZISqYHCwsmI4cOwYmGZcsv/Q/zWbNjPsnjmVwTU9myHEzxe7IADAGSUB87UdmAAAAABJRU5ErkJggg==\"}]}"], "hiddenFrames": [""] }
