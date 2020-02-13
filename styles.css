@@ -8,3 +8,10 @@
 * {
     color: azure;
 }
+
+.canvas-2 {
+    border-width: 5px;
+    background-color: #99e6ff;
+    position: absolute;
+    opacity: 0;
+}

@@ -10,17 +10,26 @@
         const backgroundSpace = $("#space");
         let screen = backgroundSpace.getContext("2d");
         const gameSize = { x: backgroundSpace.width, y: backgroundSpace.height };
-        console.log(gameSize);
-        // all bodies in game
+        // console.log(gameSize);
+
+        const titleSpace = $("#space-layer")
+            // all bodies in game
 
         this.bodies = createInvaders(this).concat(new Player(this, gameSize));
 
         const self = this;
 
+        const shootSound = document.getElementById('#shoot-sound');
+        // Game.shootSound.load();
+
+
+
         const tick = function() {
             self.update();
             self.draw(screen, gameSize);
             requestAnimationFrame(tick);
+            console.log('tick')
+
         };
         tick();
     };
@@ -40,23 +49,6 @@
 
             for (var i = 0; i < this.bodies.length; i++) this.bodies[i].update();
             // console.log('hi')
-        },
-
-        drawHero: function(screen, gameSize) {
-            screen.clearRect(0, 0, gameSize.x, gameSize.y);
-            for (var i = 0; i < this.bodies.length; i++) {
-                drawRect(screen, this.bodies[i]);
-
-                make_base();
-
-                function make_base() {
-                    base_image = new Image();
-                    base_image.src = "yellow-circle.png";
-                    base_image.onload = function() {
-                        context.drawImage(base_image, 0, 0);
-                    };
-                }
-            }
         },
 
         draw: function(screen, gameSize) {
@@ -86,9 +78,10 @@
         this.size = { x: 5, y: 5 };
         this.center = center;
         this.velocity = velocity;
-        // this.image = url("yellow-circle.png");
     };
-    //removed 'prototype'
+
+    // Prototype  = It is responsible for creating new instances and for defining the behaviour of instances.
+
 
     Bullet.prototype = {
         update: function() {
@@ -134,7 +127,14 @@
         return invaders;
     };
 
-    // var createInvaders = function()
+    var printMessages = function(array) {
+        if (array.length == 0) {
+            let title = document.createElement('div');
+            title.classList.add('title')
+
+        }
+
+    }
 
     // tells game where playeris at moment
     var Player = function(game, gameSize) {
@@ -152,12 +152,24 @@
             } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
                 this.center.x += 4;
             }
+
+            if ((this.center.y + this.size.y / 2 <= 390) && (this.center.y + this.size.y / 2 >= 200)) {
+                if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
+                    this.center.y -= 4;
+                    console.log('up')
+                } else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
+                    this.center.y += 4;
+                }
+            }
+
             if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
                 var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x / 2 },
 
                     { x: 0, y: -6 }
                 );
                 this.game.addBody(bullet);
+                // this.game.shootSound.play()
+
             }
         }
     };
@@ -181,11 +193,17 @@
         window.onkeyup = function(e) {
             keyState[e.keyCode] = false;
         };
+
         this.isDown = function(keyCode) {
             return keyState[keyCode] === true;
+
         };
-        this.KEYS = { LEFT: 37, RIGHT: 39, SPACE: 32 };
+
+        this.KEYS = { LEFT: 37, RIGHT: 39, UP: 38, DOWN: 40, SPACE: 32 };
+
     };
+
+
 
     var colliding = function(body1, body2) {
         return !(
@@ -196,6 +214,7 @@
             body1.center.y - body1.size.y / 2 > body2.center.y + body2.size.y / 2
         );
     };
+
 
     window.onload = function() {
         new Game("screen");
