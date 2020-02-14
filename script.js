@@ -28,7 +28,7 @@
             self.update();
             self.draw(screen, gameSize);
             requestAnimationFrame(tick);
-            console.log('tick')
+            // console.log('tick')
 
         };
         tick();
@@ -147,20 +147,31 @@
 
     Player.prototype = {
         update: function() {
+
+            //left /rightmovement 
             if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-                this.center.x -= 4;
+                if (this.center.x >= 16) {
+                    this.center.x -= 4
+                }
+
             } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-                this.center.x += 4;
+                if (this.center.x <= 400 - 16) {
+                    this.center.x += 4
+                }
+
             }
 
-            if ((this.center.y + this.size.y / 2 <= 390) && (this.center.y + this.size.y / 2 >= 200)) {
-                if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-                    this.center.y -= 4;
-                    console.log('up')
-                } else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
-                    this.center.y += 4;
+            if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
+                if (this.center.y >= 216) {
+                    this.center.y -= 4
+                }
+            } else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
+                if (this.center.y <= 400 - 16) {
+                    this.center.y += 4
+                    console.log(this.center.y)
                 }
             }
+
 
             if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
                 var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x / 2 },
