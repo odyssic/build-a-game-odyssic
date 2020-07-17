@@ -5,31 +5,27 @@
 
     const Game = function(CanvasId) {
         CanvasId = $("#space");
-        console.log("hi!");
 
         const backgroundSpace = $("#space");
         let screen = backgroundSpace.getContext("2d");
         const gameSize = { x: backgroundSpace.width, y: backgroundSpace.height };
         // console.log(gameSize);
 
-        const titleSpace = $("#space-layer")
-            // all bodies in game
+        const titleSpace = $("#space-layer");
+        // all bodies in game
 
         this.bodies = createInvaders(this).concat(new Player(this, gameSize));
 
         const self = this;
 
-        const shootSound = document.getElementById('#shoot-sound');
+        const shootSound = document.getElementById("#shoot-sound");
         // Game.shootSound.load();
-
-
 
         const tick = function() {
             self.update();
             self.draw(screen, gameSize);
             requestAnimationFrame(tick);
             // console.log('tick')
-
         };
         tick();
     };
@@ -71,7 +67,7 @@
                     );
                 }).length > 0
             );
-        }
+        },
     };
 
     var Bullet = function(center, velocity) {
@@ -82,12 +78,11 @@
 
     // Prototype  = It is responsible for creating new instances and for defining the behaviour of instances.
 
-
     Bullet.prototype = {
         update: function() {
             this.center.x += this.velocity.x;
             this.center.y += this.velocity.y;
-        }
+        },
     };
 
     var Invader = function(game, center) {
@@ -114,7 +109,7 @@
                 );
                 this.game.addBody(bullet);
             }
-        }
+        },
     };
 
     var createInvaders = function(game) {
@@ -129,12 +124,10 @@
 
     var printMessages = function(array) {
         if (array.length == 0) {
-            let title = document.createElement('div');
-            title.classList.add('title')
-
+            let title = document.createElement("div");
+            title.classList.add("title");
         }
-
-    }
+    };
 
     // tells game where playeris at moment
     var Player = function(game, gameSize) {
@@ -147,31 +140,27 @@
 
     Player.prototype = {
         update: function() {
-
-            //left /rightmovement 
+            //left /rightmovement
             if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
                 if (this.center.x >= 16) {
-                    this.center.x -= 4
+                    this.center.x -= 4;
                 }
-
             } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
                 if (this.center.x <= 400 - 16) {
-                    this.center.x += 4
+                    this.center.x += 4;
                 }
-
             }
 
             if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
                 if (this.center.y >= 216) {
-                    this.center.y -= 4
+                    this.center.y -= 4;
                 }
             } else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
                 if (this.center.y <= 400 - 16) {
-                    this.center.y += 4
-                    console.log(this.center.y)
+                    this.center.y += 4;
+                    console.log(this.center.y);
                 }
             }
-
 
             if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
                 var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x / 2 },
@@ -180,9 +169,8 @@
                 );
                 this.game.addBody(bullet);
                 // this.game.shootSound.play()
-
             }
-        }
+        },
     };
 
     var drawRect = function(screen, body) {
@@ -207,14 +195,10 @@
 
         this.isDown = function(keyCode) {
             return keyState[keyCode] === true;
-
         };
 
         this.KEYS = { LEFT: 37, RIGHT: 39, UP: 38, DOWN: 40, SPACE: 32 };
-
     };
-
-
 
     var colliding = function(body1, body2) {
         return !(
@@ -225,7 +209,6 @@
             body1.center.y - body1.size.y / 2 > body2.center.y + body2.size.y / 2
         );
     };
-
 
     window.onload = function() {
         new Game("screen");
