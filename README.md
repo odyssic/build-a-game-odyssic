@@ -1,18 +1,18 @@
-# Building A Game in JavaScript
+# Simple Space Invaders built in JavaScript
 
-## Directions
+This is a one level space invaders game built using JavaScript and HTML5Canvas. 
 
-For this project, you are going to build a simple game with JavaScript. First, make sure you've [watched this video of Mary Rose Cook building a game from scratch](https://vimeo.com/105955605). Check out [her annotated version of Space Invaders](http://annotated-code.maryrosecook.com/space-invaders/docs/space-invaders.html).
+## Directions to Run
 
-Then pick one of the following games:
+1. Clone the repository
+2. Create a virtual environment. For example, 'pipenv --three'
+3. run the virtual environment. For example, 'pipenv shell'
+4. Navigage to index.html and open it to run it in the browser. 
 
-* [Pixel War](http://www.lessmilk.com/game/pixel-war-1/)
-* [Run](http://www.lessmilk.com/game/run/)
-* [The Square](http://www.lessmilk.com/game/the-square/)
+The game begins! == Stay Alive!
 
-Your job is to implement this game in JavaScript. You can use external libraries, but nothing that would be considered a game framework. Your game must use JavaScript objects for organization.
+## Directions to Play
 
-## Additional resources
+The enemies will begin shooting projectiles immediately. Navigate away from them by using the left and right arrow. Use the spacebar to fire. Hold down the space bar to let out a stream of projectiles. If you get hit, you lose. If you destroy all of the enemies, you win! 
 
-* [Game project from _Eloquent JavaScript_](https://eloquentjavascript.net/3rd_edition/16_game.html)
-* [Lessmilk Game Tutorials](http://www.lessmilk.com/)
+This is based on Mary Rose Cook's space invaders game that she coded live at a demo. 
