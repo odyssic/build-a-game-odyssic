@@ -5,18 +5,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Build a Game</title>
+    <title>Space Invaders</title>
     <script src="script.js" defer></script>
     <script src="keyboarder.js" defer></script>
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
 </head>
 
 <body>
     <audio id="shoot-sound" src="http://annotated-code.maryrosecook.com/space-invaders/shoot.mp3"></audio>
 
     <div class="game-container">
+        <h1>Space Projectiles</h1>
         <div class="child"><canvas class="space" id="space" width="400" height="400"></canvas
       ></div>
     </div>
+    <div id="rules" class="hide"
+      ><h3>Directions:</h3>
+      <h4
+        >Press the space bar to fire. <br />Use arrow keys to navigate.</h4
+      ></div
+    >
   </body>
 </html>

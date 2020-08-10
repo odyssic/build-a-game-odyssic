@@ -32,8 +32,8 @@
 
     Game.prototype = {
         update: function() {
-            var bodies = this.bodies;
-            var notCollidingWithAnything = function(body1) {
+            const bodies = this.bodies;
+            const notCollidingWithAnything = function(body1) {
                 return (
                     bodies.filter(function(body2) {
                         return colliding(body1, body2);
@@ -43,8 +43,7 @@
 
             this.bodies = this.bodies.filter(notCollidingWithAnything);
 
-            for (var i = 0; i < this.bodies.length; i++) this.bodies[i].update();
-            // console.log('hi')
+            for (let i = 0; i < this.bodies.length; i++) this.bodies[i].update();
         },
 
         draw: function(screen, gameSize) {
@@ -70,7 +69,7 @@
         },
     };
 
-    var Bullet = function(center, velocity) {
+    const Bullet = function(center, velocity) {
         this.size = { x: 5, y: 5 };
         this.center = center;
         this.velocity = velocity;
@@ -85,14 +84,13 @@
         },
     };
 
-    var Invader = function(game, center) {
+    const Invader = function(game, center) {
         this.game = game;
         this.size = { x: 25, y: 25 };
         this.center = center;
         this.patrolX = 0;
         this.speedX = 0.9;
     };
-    //removed 'prototype'
 
     Invader.prototype = {
         update: function() {
@@ -112,21 +110,14 @@
         },
     };
 
-    var createInvaders = function(game) {
-        var invaders = [];
-        for (var i = 0; i < 24; i++) {
-            var x = 30 + (i % 8) * 42;
-            var y = 30 + (i % 3) * 42;
+    const createInvaders = function(game) {
+        let invaders = [];
+        for (let i = 0; i < 24; i++) {
+            let x = 30 + (i % 8) * 42;
+            let y = 30 + (i % 3) * 42;
             invaders.push(new Invader(game, { x: x, y: y }));
         }
         return invaders;
-    };
-
-    var printMessages = function(array) {
-        if (array.length == 0) {
-            let title = document.createElement("div");
-            title.classList.add("title");
-        }
     };
 
     // tells game where playeris at moment
@@ -158,7 +149,7 @@
             } else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
                 if (this.center.y <= 400 - 16) {
                     this.center.y += 4;
-                    console.log(this.center.y);
+                    // console.log(this.center.y);
                 }
             }
 
@@ -173,7 +164,7 @@
         },
     };
 
-    var drawRect = function(screen, body) {
+    const drawRect = function(screen, body) {
         screen.fillRect(
             body.center.x - body.size.x / 2,
             body.center.y - body.size.y / 2,
@@ -183,7 +174,7 @@
         screen.fillStyle = "#ff99cc";
     };
 
-    var keyboarder = function() {
+    const keyboarder = function() {
         var keyState = {};
         window.onkeydown = function(e) {
             keyState[e.keyCode] = true;
@@ -200,7 +191,8 @@
         this.KEYS = { LEFT: 37, RIGHT: 39, UP: 38, DOWN: 40, SPACE: 32 };
     };
 
-    var colliding = function(body1, body2) {
+    const colliding = function(body1, body2) {
+        // console.log("bodies 1 & 2", body1, body2);
         return !(
             body1 === body2 ||
             body1.center.x + body1.size.y / 2 < body2.center.x - body2.size.x / 2 ||
@@ -214,3 +206,16 @@
         new Game("screen");
     };
 })();
+
+directionsDiv = document.getElementById("rules");
+canvas = document.getElementById("space");
+canvas.addEventListener("mouseover", showDirectionsDiv, false);
+canvas.addEventListener("mouseout", hideDirectionsDiv, false);
+
+function showDirectionsDiv() {
+    directionsDiv.classList.remove("hide");
+}
+
+function hideDirectionsDiv() {
+    directionsDiv.classList.add("hide");
+}

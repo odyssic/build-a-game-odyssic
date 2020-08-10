@@ -3,7 +3,7 @@
     padding: 0;
     margin-left: 0;
     font-family: Arial, Helvetica, sans-serif;
-    color: gray;
+    color: darkslategray;
 }
 
 .space {
@@ -13,13 +13,37 @@
     background-image: url(background-for-game.png);
 }
 
-* {
-    color: azure;
-}
-
 .game-container {
     display: flex;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 70vh;
+}
+
+body {
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Space Mono", monospace;
+}
+
+.rules {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    filter: alpha(opacity=100);
+    position: fixed;
+    bottom: 0;
+}
+
+.hide {
+    display: none;
 }
